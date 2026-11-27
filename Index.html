@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gruha Pravesha Invitation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background: #140103;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            color: #fff;
+        }
+        /* Opening Envelope/Curtain Screen */
+        #welcome-screen {
+            position: fixed; inset: 0;
+            background: radial-gradient(circle, #590606 0%, #1a0205 100%);
+            z-index: 100;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            text-align: center; padding: 20px;
+            transition: transform 0.8s ease-in-out, opacity 0.8s;
+        }
+        .open-btn {
+            margin-top: 25px; padding: 14px 32px;
+            background: linear-gradient(135deg, #f1c40f, #b8860b);
+            color: #1a0205; font-weight: 700; font-size: 1rem;
+            border: none; border-radius: 30px; cursor: pointer;
+            box-shadow: 0 0 20px rgba(241, 196, 15, 0.6);
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+
+        /* Main Card Container */
+        .card-wrapper {
+            width: 100%; max-width: 420px; height: 90vh; max-height: 720px;
+            background: radial-gradient(circle, #4a0404 0%, #1a0205 100%);
+            border: 4px solid #d4af37; border-radius: 20px;
+            position: relative; overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.8);
+            display: flex; flex-direction: column; justify-content: space-between;
+        }
+                /* Flash Cards */
+        .flash-card {
+            position: absolute; inset: 0; padding: 30px 20px 60px 20px;
+            display: flex; flex-direction: column;
+            justify-content: flex-start; align-items: center; text-align: center;
+            opacity: 0; transform: translateX(100%);
+            transition: all 0.5s ease-in-out;
+            pointer-events: none;
+        }
+
+        .flash-card.active {
+            opacity: 1; transform: translateX(0); pointer-events: auto;
+        }
+        .flash-card.prev {
+            opacity: 0; transform: translateX(-100%);
+        }
+        h1 { font-family: 'Cinzel Decorative', serif; color: #f1c40f; font-size: 1.7rem; margin-bottom: 8px; }
+        h2 { font-family: 'Cinzel Decorative', serif; color: #d4af37; font-size: 1.3rem; margin-bottom: 15px; }
+        .sub { color: #f3e5ab; font-size: 0.9rem; line-height: 1.5; margin-bottom: 15px; }
+        
+                                /* Home Photo Frame (9:16 Ratio) */
+        .photo-box {
+            height: 44vh;
+            aspect-ratio: 9/16;
+            border: 3px solid #d4af37;
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 8px 0;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+        }
+
+
+        .photo-box img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* Details Box */
+        .info-box {
+            background: rgba(0,0,0,0.35); border: 1px solid rgba(212,175,55,0.4);
+            border-radius: 12px; padding: 15px; width: 100%; margin: 10px 0;
+        }
+        .label { font-size: 0.75rem; color: #d4af37; text-transform: uppercase; letter-spacing: 1.5px; }
+        .val { font-size: 1.05rem; font-weight: 600; margin-top: 4px; color: #fff; }
+
+        /* Action Buttons */
+        .action-btn {
+            display: inline-block; margin-top: 12px; padding: 10px 22px;
+            background: linear-gradient(135deg, #d4af37, #aa7c11);
+            color: #1a0205; text-decoration: none; font-weight: 700;
+            border-radius: 25px; font-size: 0.9rem;
+        }
+        .phone-link { display: block; color: #f1c40f; text-decoration: none; font-size: 1.1rem; font-weight: 600; margin: 8px 0; }
+
+        /* Bottom Navigation Controls */
+        .nav-controls {
+            position: absolute; bottom: 15px; left: 0; right: 0;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 20px; z-index: 10;
+        }
+        .nav-btn {
+            background: rgba(212, 175, 55, 0.2); border: 1px solid #d4af37;
+            color: #f1c40f; padding: 6px 16px; border-radius: 20px; cursor: pointer; font-weight: 600;
+        }
+        .dots { display: flex; gap: 6px; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.3); }
+        .dot.active { background: #f1c40f; width: 18px; border-radius: 4px; }
+
+        /* Falling Petals */
+        .petal {
+            position: absolute; top: -20px; font-size: 16px;
+            animation: fall linear infinite; pointer-events: none; z-index: 5;
+        }
+        @keyframes fall {
+            to { transform: translateY(105vh) rotate(360deg); }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Welcome Cover Screen -->
+    <div id="welcome-screen">
+        <div style="font-size: 3rem; margin-bottom: 10px;">🕉️</div>
+        <h1>GRUHA PRAVESHA</h1>
+        <p class="sub">You are cordially invited to our<br>House Warming Ceremony</p>
+        <button class="open-btn" onclick="openInvite()">✨ Tap to Open Invitation ✨</button>
+    </div>
+
+    <!-- Main Flash Card Container -->
+    <div class="card-wrapper" id="card-container">
+        
+        <!-- Flash Card 1: Home Photo & Welcome -->
+        <div class="flash-card active">
+            <div style="font-size: 1.8rem;">🌸🍃🌸</div>
+            <h1>GRUHA PRAVESHA</h1>
+            <p class="sub">With the blessings of Almighty, we invite you and your family to celebrate our new beginning.</p>
+            <div class="photo-box">
+                <!-- Change 'home.jpg' to your photo filename -->
+                <img src="home.jpg" onerror="this.src='https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600'" alt="Our New Home">
+            </div>
+            <p style="color:#d4af37; font-size:0.8rem; letter-spacing:1px;">OUR NEW SWEET HOME</p>
+        </div>
+
+        <!-- Flash Card 2: Date & Venue -->
+        <div class="flash-card">
+            <div style="font-size: 2rem; margin-bottom: 10px;">🪔</div>
+            <h2>AUSPICIOUS DATE & VENUE</h2>
+            <div class="info-box">
+                <div class="label">Date & Day</div>
+                <div class="val" style="color:#f1c40f; font-size:1.2rem;">Monday, 14th December 2026</div>
+            </div>
+            <div class="info-box">
+                <div class="label">Address</div>
+                <div class="val">Raghavendra Colony,<br>Opposite Uma Maheshwari Kalyana Mandapam</div>
+            </div>
+            <a href="https://maps.app.goo.gl/pUPaVxyQ3C7nuCvC8?g_st=aw" target="_blank" class="action-btn">📍 Open Live Location</a>
+        </div>
+
+        <!-- Flash Card 3: Contact & RSVP -->
+        <div class="flash-card">
+            <div style="font-size: 2rem; margin-bottom: 10px;">🙏</div>
+            <h2>AWAITING YOUR PRESENCE</h2>
+            <p class="sub">Your presence and blessings will make this occasion truly special for us.</p>
+            <div class="info-box">
+                <div class="label" style="margin-bottom: 8px;">Contact Numbers</div>
+                <a href="tel:9110474082" class="phone-link">📞 9110474082</a>
+                <a href="tel:9964974885" class="phone-link">📞 9964974885</a>
+                <a href="tel:9380041779" class="phone-link">📞 9380041779</a>
+            </div>
+            <div style="font-size: 1.5rem; margin-top: 10px;">✨ 🪔 ✨</div>
+        </div>
+
+        <!-- Navigation Controls -->
+        <div class="nav-controls">
+            <button class="nav-btn" onclick="changeSlide(-1)">❮ Prev</button>
+            <div class="dots">
+                <span class="dot active" onclick="goToSlide(0)"></span>
+                <span class="dot" onclick="goToSlide(1)"></span>
+                <span class="dot" onclick="goToSlide(2)"></span>
+            </div>
+            <button class="nav-btn" onclick="changeSlide(1)">Next ❯</button>
+        </div>
+
+    </div>
+
+
+      <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.flash-card');
+        const dots = document.querySelectorAll('.dot');
+
+        // Open Welcome Curtain
+        function openInvite() {
+            const screen = document.getElementById('welcome-screen');
+            screen.style.transform = 'translateY(-100%)';
+            screen.style.opacity = '0';
+            setTimeout(() => screen.style.display = 'none', 800);
+            startPetals();
+        }
+
+        // Slide Navigation
+        function goToSlide(index) {
+            if (index < 0) index = slides.length - 1;
+            if (index >= slides.length) index = 0;
+
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active', 'prev');
+                if (i === index) slide.classList.add('active');
+                else if (i < index) slide.classList.add('prev');
+            });
+
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+            currentSlide = index;
+        }
+
+        function changeSlide(dir) {
+            goToSlide(currentSlide + dir);
+        }
+
+        // Mobile Touch Swipe Support
+        let touchStartX = 0;
+        const container = document.getElementById('card-container');
+        container.addEventListener('touchstart', e => touchStartX = e.changedTouches[0].screenX);
+        container.addEventListener('touchend', e => {
+            let touchEndX = e.changedTouches[0].screenX;
+            if (touchStartX - touchEndX > 40) changeSlide(1);
+            if (touchEndX - touchStartX > 40) changeSlide(-1);
+        });
+
+        // Falling Flower Petals Animation
+        function startPetals() {
+            const symbols = ['🌸', '🌼', '✨'];
+            setInterval(() => {
+                const petal = document.createElement('div');
+                petal.classList.add('petal');
+                petal.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+                petal.style.left = Math.random() * 100 + 'vw';
+                petal.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                document.body.appendChild(petal);
+                setTimeout(() => petal.remove(), 6000);
+            }, 450);
+        }
+    </script>
+</body>
+</html>
